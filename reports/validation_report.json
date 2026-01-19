@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-01-19T17:05:58.283Z",
+  "results": [
+    {
+      "name": "Successful login",
+      "tag": "negative",
+      "isValid": true,
+      "errors": []
+    },
+    {
+      "name": "Unsuccessful login with invalid credentials",
+      "tag": "negative",
+      "isValid": true,
+      "errors": []
+    },
+    {
+      "name": "Successful login and view products",
+      "tag": "negative",
+      "isValid": true,
+      "errors": []
+    },
+    {
+      "name": "Unsuccessful login with invalid credentials",
+      "tag": "negative",
+      "isValid": true,
+      "errors": []
+    }
+  ]
+}

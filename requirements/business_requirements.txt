@@ -1,0 +1,4 @@
+# Business Requirements
+
+User should be able to log in with valid credentials and see the products page.
+User should see an error message when logging in with invalid credentials.

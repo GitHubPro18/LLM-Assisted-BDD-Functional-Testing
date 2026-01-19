@@ -1,0 +1,23 @@
+{
+  "name": "llm-bdd-testing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LLM-assisted BDD functional testing platform",
+  "scripts": {
+    "build": "tsc",
+    "run": "node --loader ts-node/esm execution/run_tests.ts",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "node-fetch": "^3.3.2",
+    "playwright-bdd": "^7.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
