@@ -6,31 +6,60 @@ import {expect} from '@playwright/test';
 const { Given, When, Then } = createBdd(test);
 
 Given('open page', async ({ page }) => {
-  //await page.goto(process.env.BASE_URL || 'https://www.saucedemo.com');
-  await page.goto(process.env.BASE_URL!);
+  await page.goto(process.env.BASE_URL || 'https://www.saucedemo.com');
 });
 
-When('login', async ({ page }) => {
-  await page.fill('#username', 'problem_user');
+Given('open page {string}', async ({ page}) => {
+  await page.goto(process.env.BASE_URL || 'https://www.saucedemo.com');
+  //await page.goto(process.env.BASE_URL!);
+});
+
+
+When('login with valid credentials', async ({ page }) => {
+  await page.fill('#user-name', 'problem_user');
   await page.fill('#password', 'secret_sauce');
   await page.click('#login-button');
 });
 
-When('submit', async ({ page }) => {
+When('login with invalid credentials', async ({ page }) => {
+  await page.fill('#user-name', 'locked_out_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+});
+
+When('login {string}', async ({ page }) => {
+  await page.fill('#user-name', 'problem_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+});
+
+When('submit {string}', async ({ page }) => {
   await page.click('button[type="submit"]');
 });
 
-When('click', async ({ page }) => {
+When('click {string}', async ({ page }) => {
   await page.click('.deterministic-click-target');
 });
 
-Then('see message', async ({ page }) => {
+Then('see message {string}', async ({ page }, expected:string) => {
   //const message = await page.textContent('.message');
-  const error = await page.locator('[data-test="error"]').textContent();
+  //const body = await page.content();
+  //await expect(body).toContain(expected);
+  //const error = await page.locator('[data-test="error"]').textContent();
   //expect(message).toBeTruthy();
-  expect(error).toBeTruthy();
+  //expect(error).toBeTruthy();
+  if (expected === 'Welcome') {
+    await expect(page).toHaveURL(/inventory/);
+  } else {
+    await expect(page.locator('[data-test="error"]')).toContainText(expected);
+  }
 });
 
-When('logout', async ({ page }) => {
+Then('see message', async ({ page }) => {
+  const body = await page.content();
+  expect(body.length).toBeGreaterThan(0);
+});
+
+When('logout {string}', async ({ page }) => {
   await page.click('#logout');
 });

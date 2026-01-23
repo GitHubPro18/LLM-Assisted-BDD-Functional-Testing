@@ -1,4 +1,11 @@
 {
-  "timestamp": "2026-01-19T17:05:58.297Z",
-  "approvalLog": []
+  "timestamp": "2026-01-23T07:20:04.450Z",
+  "approvalLog": [
+    {
+      "scenarioName": "Successful login displays welcome message",
+      "approverId": "Admin",
+      "approved": true,
+      "timestamp": "2026-01-23T07:20:04.450Z"
+    }
+  ]
 }

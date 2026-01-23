@@ -58,7 +58,6 @@ Rules for actions:
 ====================
 INPUT
 ====================
-
 Business Requirement:
 {requirement}
 

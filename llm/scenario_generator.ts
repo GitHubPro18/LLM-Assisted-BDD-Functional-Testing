@@ -48,8 +48,13 @@ function buildLlmPrompt(requirement: string, allowedActions: string[], template:
 
 function parseLlmResponse(llmOutput: string, allowedActions: string[]): GeneratedScenario[] {
   // Split by 'Scenario:' or '@happy/@negative' tags
-  const scenarioBlocks = llmOutput.split(/(?=Scenario:|@happy|@negative)/g).map(s => s.trim()).filter(Boolean);
+  //const scenarioBlocks = llmOutput.split(/(?=Scenario:|@happy|@negative)/g).map(s => s.trim()).filter(Boolean);
+  const scenarioBlocks = llmOutput.split(/(?=@happy|@negative)/g).map(s => s.trim()).filter(s => s.startsWith('@happy') || s.startsWith('@negative'));;
   const scenarios: GeneratedScenario[] = [];
+
+  //console.log('Parsed scenario blocks:');
+  //console.log(scenarioBlocks);
+  
   for (const block of scenarioBlocks) {
     // Extract tag
     let tag: ScenarioTag | undefined;

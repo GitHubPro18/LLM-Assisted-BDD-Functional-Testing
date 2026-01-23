@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 async function main() {
 	// 1. Load business requirements
 	const reqPath = path.join(__dirname, '..', 'requirements', 'business_requirements.txt');
-	const requirements = fs.readFileSync(reqPath, 'utf8').split(/\r?\n/).filter(Boolean);
+	const requirements = fs.readFileSync(reqPath, 'utf8').split(/\r?\n/).filter(Boolean).map(r => r.trim()).filter(r => r && !r.startsWith('#'));;
 
 	// 2. Load allowed actions
 	const allowedActionsPath = path.join(__dirname, '..', 'validation', 'allowed_actions.json');
@@ -35,12 +35,24 @@ async function main() {
 		const {prompt} = generateScenarios(req, allowedActions, template);
 
         const llmOutput = await llmClient.send(prompt);
+
+		//console.log('\n===== LLM PROMPT =====\n');
+		//console.log(prompt);
+
+		console.log('\n===== RAW LLM OUTPUT =====\n');
+		console.log(llmOutput);
+		console.log('\n========================\n');
+
         const {scenarios} = generateScenarios(req, allowedActions, template, llmOutput);    
         if(!scenarios || scenarios.length === 0) {
             console.warn(`⚠️ No valid scenarios generated for requirement: ${req}`);
             continue;
         }
+
+		console.log(`✅ Generated ${scenarios.length} scenarios : ${scenarios.map(s => s.name).join(', ')}`);
         allGenerated.push(...scenarios);
+
+		console.log(allGenerated);
 		// In real use, send result.prompt to LLM and get llmOutput, then:
 		// const finalResult = generateScenarios(req, allowedActions, template, llmOutput);
 		// For demo, skip LLM call and continue
@@ -59,6 +71,8 @@ async function main() {
 		//return { ...s, ...v };
 	});
 
+
+
 	// 6. Manual approval gate
 	const approverId = process.env.USER || process.env.USERNAME || 'approver';
 	const { approvedScenarios, approvalLog } = await getApprovedScenarios(scenariosWithValidation, approverId);
@@ -71,9 +85,11 @@ async function main() {
 	// 7. Write approved scenarios to feature file
 	const featurePath = path.join(__dirname, '..', 'bdd', 'features', 'generated.feature');
 	const sanitizedScenarios = approvedScenarios.map(s => ({...s,steps: s.steps.map(step =>step.replace(/".*?"/g, '').trim())}));
+	writeFeatureFile(sanitizedScenarios, 'Generated Feature', featurePath);
+	
+	console.log(`Approved scenarios written to ${featurePath}`);
 
-
-	// 8. Execute Playwright-BDD via CLI
+	// 8. Execute Playwright-BDD 
 	//const { execSync } = require('child_process');
 
     

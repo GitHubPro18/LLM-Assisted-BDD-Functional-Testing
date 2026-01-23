@@ -1,10 +1,9 @@
 {
   "allowedActions": [
-    "open page",
     "login",
-    "submit",
-    "click",
     "see message",
-    "logout"
+    "input"
   ]
 }
+
+

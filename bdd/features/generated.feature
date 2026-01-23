@@ -1,16 +1,7 @@
 Feature: Generated Feature
 
 @happy
-Scenario: Successful login
-Given open page "login"
-When login "valid_user"
-Then see message "Welcome"
-
-@happy
-Scenario: Successful login displays products page
-Given open page
+Scenario: Successful login displays welcome message
+Given login with valid credentials
 When login with valid credentials
 Then see message
-
-@happy
-Scenario: Successful login
