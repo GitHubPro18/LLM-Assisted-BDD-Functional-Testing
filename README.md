@@ -12,4 +12,4 @@ This project implements a governance-first, LLM-assisted BDD testing system as d
 - execution/: Test execution
 - reports/: All generated reports
 
-See PRD for full details.
+See ppt for full details.
